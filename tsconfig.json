@@ -1,10 +1,9 @@
 {
     "compilerOptions": {
         "target": "es5",
-        "module": "commonjs",
+        "module": "amd",
         "moduleResolution": "node",
         "isolatedModules": false,
-        "jsx": "react",
         "experimentalDecorators": true,
         "emitDecoratorMetadata": true,
         "declaration": false,
@@ -14,15 +13,13 @@
         "noLib": false,
         "preserveConstEnums": true,
         "suppressImplicitAnyIndexErrors": true,
-		"outDir": "build/",
-		"sourceMap": true,
-		"declaration": true
-    },
+		"outFile": "dist/dist.js",
+		"sourceMap": true
+	},
     "exclude": [
-        "node_modules",
-		"build/*.d.ts"
+        "node_modules"
     ],
-    "compileOnSave": true,
+    "compileOnSave": false,
     "buildOnSave": false,
     "atom": {
         "rewriteTsconfig": false

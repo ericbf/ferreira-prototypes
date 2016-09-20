@@ -1,9 +1,10 @@
 {
   "name": "erkalicious-prototypes",
-  "version": "0.0.0",
+  "version": "0.0.5",
   "authors": [
     "Eric Ferreira <eric@ferreira.world>"
   ],
+  "repository": "https://github.com/erkalicious/erkalicious-prototypes",
   "description": "Some useful javascript prototype extensions. For those who like extending prototypes :).",
   "main": "dist/dist.js",
   "keywords": [
@@ -20,8 +21,6 @@
   "ignore": [
     "**/.*",
     "node_modules",
-    "bower_components",
-    "test",
-    "tests"
+    "bower_components"
   ]
 }
