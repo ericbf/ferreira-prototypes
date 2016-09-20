@@ -1,0 +1,27 @@
+{
+  "name": "erkalicious-prototypes",
+  "version": "0.0.0",
+  "authors": [
+    "Eric Ferreira <eric@ferreira.world>"
+  ],
+  "description": "Some useful javascript prototype extensions. For those who like extending prototypes :).",
+  "main": "dist/dist.js",
+  "keywords": [
+    "extension",
+    "javascript",
+    "prototype",
+    "array",
+    "function",
+    "object",
+    "string"
+  ],
+  "license": "MIT",
+  "homepage": "",
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ]
+}
