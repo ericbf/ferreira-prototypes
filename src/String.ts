@@ -127,7 +127,7 @@ interface String {
 		},
 
 		toRegExpEscaped: {
-			value: function toRegExpEscaped() {
+			value: function toRegExpEscaped(this: string) {
 				return this.replace(/[\-\[\]\/\{\}\(\)\*\+\?\.\\\^\$\|]/g, "\\$&")
 			}
 		}

@@ -236,7 +236,7 @@ interface Object {
 			}
 		},
 		getNestedProperty: {
-			value: function getNestedProperty(...properties: string[]): any {
+			value: function getNestedProperty(this: any, ...properties: string[]): any {
 				let value = this
 
 				for (const property of properties) {

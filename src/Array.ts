@@ -19,6 +19,7 @@ type SortOptions<T> = {
 	 *   `false`
 	 */
 	descending?: boolean
+
 	/**
 	 * A custom sorter. Default is to use less/greater than operator.
 	 */
@@ -34,7 +35,7 @@ interface Array<T> {
 	 *
 	 * @return - the removed item or undefined if no item was removed
 	 */
-	remove(comp: Comparator<T>, thisArg?: any): T
+	remove(comp: Comparator<T>, thisArg?: any): T | undefined
 
 	/**
 	 * Removes the first instance of an item that is equal, according to ===.
@@ -44,7 +45,7 @@ interface Array<T> {
 	 *
 	 * @return - the removed item or undefined if it wasn't found in the array
 	 */
-	removeItem(item: T, thisArg?: any): T
+	removeItem(item: T, thisArg?: any): T | undefined
 
 	/**
 	 * Searches for an item using the comparator function, then returns that
@@ -52,7 +53,7 @@ interface Array<T> {
 	 *
 	 * @return - that item or undefined
 	 */
-	find(comp: Comparator<T>, thisArg?: any): T
+	find(comp: Comparator<T>, thisArg?: any): T | undefined
 
 	/**
 	 * Searches for an item using the comparator function, returns index of
@@ -60,17 +61,17 @@ interface Array<T> {
 	 *
 	 * @return - that item's index or -1
 	 */
-	findIndex(comp: Comparator<T>, thisArg?: any): number
+	findIndex(comp: Comparator<T>, thisArg?: any): number | -1
 
 	/**
 	 * The first item in this array, or undefined if there are no items.
 	 */
-	first: T
+	first: T | undefined
 
 	/**
 	 * The last item in this array, or undefined if there are no items.
 	 */
-	last: T
+	last: T | undefined
 
 	/**
 	 * Sort this array in place by a property of each item in the array,
@@ -107,7 +108,7 @@ interface Array<T> {
 (() => {
 	Object.defineProperties(Array.prototype, {
 		remove: {
-			value: function remove<T>(this: T[], comp: Comparator<T>, thisArg?: any): T {
+			value: function remove<T>(this: T[], comp: Comparator<T>, thisArg?: any) {
 				const index = this.findIndex(comp, thisArg)
 
 				if (index >= 0) {
@@ -119,7 +120,7 @@ interface Array<T> {
 		},
 
 		removeItem: {
-			value: function removeItem<T>(this: T[], item: T, fromIndex = 0): T {
+			value: function removeItem<T>(this: T[], item: T, fromIndex = 0) {
 				const index = this.indexOf(item, fromIndex)
 
 				if (index >= 0) {
@@ -164,7 +165,7 @@ interface Array<T> {
 
 				for (const propOrOptions of propsOrOptionses) {
 					let descending = false,
-						sorter: Sorter<T> = undefined,
+						sorter: Sorter<T> | undefined,
 						accessor: Accessor<T>
 
 					if (typeof propOrOptions === "string") {
@@ -172,7 +173,7 @@ interface Array<T> {
 					} else {
 						const options = propOrOptions
 
-						descending = options.descending
+						descending = Boolean(options.descending)
 
 						// If a custom sorter is passed, the descending doesn't
 						//   matter. It is ignored.
@@ -181,7 +182,9 @@ interface Array<T> {
 						}
 
 						if (typeof options.property === "string") {
-							accessor = (item) => item[options.property]
+							const prop = options.property
+
+							accessor = (item) => item[prop]
 						} else if (typeof options.accessor === "function") {
 							accessor = options.accessor
 						} else {

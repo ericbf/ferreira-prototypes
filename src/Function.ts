@@ -75,10 +75,10 @@ interface Function {
 
 	Object.defineProperties(Function.prototype, {
 		curry: {
-			value: function curry<T extends Function>(...args: any[]) {
-				const that: T = this
+			value: function curry<T extends Function>(this: T, ...args: any[]) {
+				const that = this
 
-				return function curried() {
+				return function curried(this: any) {
 					return that.apply(this, args.concat(Array.prototype.slice.call(arguments, 0)))
 				}
 			}
@@ -102,9 +102,9 @@ interface Function {
 				const that = this,
 					cache: Cache = {}
 
-				return function memoized() {
+				return function memoized(this: any) {
 					const keys = Array.prototype.filter.call(arguments, function removeFromKeys(obj: any, index: number) {
-						return options.excludedArguments.indexOf(index) < 0
+						return options.excludedArguments!.indexOf(index) < 0
 					})
 
 					if (typeof options.argumentsCount === "number" && isFinite(options.argumentsCount)) {
@@ -165,7 +165,7 @@ interface Function {
 
 				let timeout: any
 
-				return function throttled() {
+				return function throttled(this: any) {
 					const context = this,
 						args = arguments
 
@@ -185,14 +185,14 @@ interface Function {
 				} as any
 			}
 		},
-		
+
 		debounce: {
 			value: function debounce<T extends Function>(this: T, wait = 0, immediate = false): T {
 				const func = this
 
 				let timeout: any
 
-				return function debounced() {
+				return function debounced(this: any) {
 					const context = this,
 						args = arguments
 

@@ -12,7 +12,7 @@ interface HTMLElement {
 	/**
 	 * The highest non-null parent element of this element
 	 */
-	readonly highestParent: HTMLElement
+	readonly highestParent: HTMLElement | undefined
 
 	/**
 	 * Get whether this element is scrollable (has overflowX or overflowY as
@@ -23,36 +23,36 @@ interface HTMLElement {
 	/**
 	 * Get the first parent of this element that is scrollable
 	 */
-	readonly scrollableParent: HTMLElement
+	readonly scrollableParent: HTMLElement | undefined
 
 	/**
 	 * Get the top of this element from the top of the direct parent
 	 */
-	parentTop: number
+	parentTop: number | undefined
 
 	/**
 	 * Get the top of this element from the top of the browser viewport
 	 */
-	absoluteTop: number
+	absoluteTop: number | undefined
 
 	/**
 	 * Get the total offset from the top of the html tag to this element
 	 */
-	totalOffsetTop: number
+	totalOffsetTop: number | undefined
 
 	/**
 	 * Get the left of this element from the left of the direct parent
 	 */
-	parentLeft: number
+	parentLeft: number | undefined
 	/**
 	 * Get the left of this element from the left of the browser viewport
 	 */
-	absoluteLeft: number
+	absoluteLeft: number | undefined
 
 	/**
 	 * Get the total offset from the left of the html tag to this element
 	 */
-	totalOffsetLeft: number
+	totalOffsetLeft: number | undefined
 
 	/**
 	 * Animated scroll from the current scroll to the passed value.
@@ -62,7 +62,7 @@ interface HTMLElement {
 	 * @param {number} duration - the duration to use. Default is 250.
 	 * @param {string} timing - the timing function. Default is "ease-out".
 	 */
-	scrollTo(topOrOptions: number | TopAndLeft, duration?: number, timing?: string): void
+	scrollTo(topOrOptions: number | TopAndLeft, duration ?: number, timing ?: string): void
 
 	/**
 	 * Try to animatedly scroll this into view, if needed.
@@ -70,7 +70,7 @@ interface HTMLElement {
 	 * @param {number} duration - the duration to use. Default is 250.
 	 * @param {string} timing - the timing function. Default is "ease-out".
 	 */
-	scrollIntoViewIfNeeded(duration?: number, padding?: number, timing?: string): void
+	scrollIntoViewIfNeeded(duration ?: number, padding ?: number, timing ?: string): void
 }
 
 (() => {
@@ -82,7 +82,7 @@ interface HTMLElement {
 
 	let isRunning = false
 
-	const animateCycle = throttle(() => {
+	let animateCycle = throttle(() => {
 		const now = new Date().getTime()
 
 		for (let i = animators.length - 1; i >= 0; i--) {
@@ -103,7 +103,7 @@ interface HTMLElement {
 	function throttle<T extends Function>(func: T): T {
 		let timeout: any
 
-		return function throttled() {
+		return function throttled(this: any) {
 			const context = this,
 				args = arguments
 
@@ -129,13 +129,13 @@ interface HTMLElement {
 
 	Object.defineProperties(HTMLElement.prototype, {
 		inDOM: {
-			get: function inDOM(this: HTMLElement) {
+			get: function inDOM(this: HTMLElement): boolean {
 				return document.body.contains(this)
 			}
 		},
 
-		highestParent: {
-			get: function highestParent(this: HTMLElement) {
+			highestParent: {
+			get: function highestParent(this: HTMLElement): HTMLElement | undefined {
 				let parent = this
 
 				while (parent.parentElement) {
@@ -155,7 +155,7 @@ interface HTMLElement {
 		},
 
 		scrollableParent: {
-			get: function(this: HTMLElement): HTMLElement {
+			get: function(this: HTMLElement): HTMLElement | undefined {
 				let parent = this.parentElement
 
 				while (parent && !parent.isScrollable) {
@@ -167,9 +167,9 @@ interface HTMLElement {
 		},
 
 		parentTop: {
-			get: function(this: HTMLElement): number {
+			get: function(this: HTMLElement): number | undefined {
 				if (!this.parentElement) {
-					return
+					return undefined
 				}
 
 				return this.totalOffsetTop - this.parentElement.totalOffsetTop
@@ -177,9 +177,13 @@ interface HTMLElement {
 		},
 
 		absoluteTop: {
-			get: function(this: HTMLElement): number {
+			get: function(this: HTMLElement): number | undefined {
+				if (!this.parentElement) {
+					return undefined
+				}
+
 				let offset = 0,
-				element = this
+					element = this
 
 				while (element.parentElement) {
 					offset += element.parentTop
@@ -193,9 +197,13 @@ interface HTMLElement {
 		},
 
 		totalOffsetTop: {
-			get: function(this: HTMLElement): number {
+			get: function(this: HTMLElement): number | undefined {
+				if (!this.parentElement) {
+					return undefined
+				}
+
 				let offset = 0,
-				element = this
+					element = this
 
 				while (element.offsetParent) {
 					offset += element.offsetTop
@@ -208,9 +216,9 @@ interface HTMLElement {
 		},
 
 		parentLeft: {
-			get: function(this: HTMLElement): number {
+			get: function(this: HTMLElement): number | undefined {
 				if (!this.parentElement) {
-					return
+					return undefined
 				}
 
 				return this.totalOffsetLeft - this.parentElement.totalOffsetLeft
@@ -218,9 +226,13 @@ interface HTMLElement {
 		},
 
 		absoluteLeft: {
-			get: function(this: HTMLElement): number {
+			get: function(this: HTMLElement): number | undefined {
+				if (!this.parentElement) {
+					return undefined
+				}
+
 				let offset = 0,
-				element = this
+					element = this
 
 				while (element.parentElement) {
 					offset += element.parentLeft
@@ -234,9 +246,13 @@ interface HTMLElement {
 		},
 
 		totalOffsetLeft: {
-			get: function(this: HTMLElement): number {
+			get: function(this: HTMLElement): number | undefined {
+				if (!this.parentElement) {
+					return undefined
+				}
+
 				let offset = 0,
-				element = this
+					element = this
 
 				while (element.offsetParent) {
 					offset += element.offsetLeft
@@ -250,11 +266,10 @@ interface HTMLElement {
 
 		scrollTo: {
 			value: function(this: HTMLElement, topOrOptions: number | TopAndLeft, duration = 250, timing = "ease-out") {
-				const that = this,
-					startTime = new Date().getTime()
+				const startTime = new Date().getTime()
 
-				let targetTop: number,
-					targetLeft: number
+				let targetTop: number | undefined,
+					targetLeft: number | undefined
 
 				if (typeof topOrOptions === "number") {
 					targetTop = topOrOptions
@@ -265,47 +280,53 @@ interface HTMLElement {
 
 				if (typeof targetTop === "number") {
 					const start = this.scrollTop,
-						down = targetTop > start,
-						tween = makeTween(start, targetTop, duration, timing)
+						target = targetTop,
+						down = target > start,
+						tween = makeTween(start, target, duration, timing)
 
 					let expected = start
 
 					addAnimator((time) => {
-						const current = that.scrollTop,
+						const current = this.scrollTop,
 							newScroll = tween(time - startTime)
 
-						if (time > startTime + duration || (down ? newScroll >= targetTop : newScroll <= targetTop)) {
-							that.scrollTop = targetTop
+						if (time > startTime + duration || (down ? newScroll >= target : newScroll <= target)) {
+							this.scrollTop = target
 						} else if (current === expected) {
-							that.scrollTop = newScroll
+							this.scrollTop = newScroll
 
-							expected = that.scrollTop
+							expected = this.scrollTop
 
 							return true
 						}
+
+						return false
 					})
 				}
 
 				if (typeof targetLeft === "number") {
 					const start = this.scrollLeft,
-						right = targetLeft > start,
-						tween = makeTween(start, targetLeft, duration, timing)
+						target = targetLeft,
+						right = target > start,
+						tween = makeTween(start, target, duration, timing)
 
 					let expected = start
 
 					addAnimator((time) => {
-						const current = that.scrollLeft,
+						const current = this.scrollLeft,
 							newScroll = tween(time - startTime)
 
-						if (time > startTime + duration || (right ? newScroll >= targetLeft : newScroll <= targetLeft)) {
-							that.scrollLeft = targetLeft
+						if (time > startTime + duration || (right ? newScroll >= target : newScroll <= target)) {
+							this.scrollLeft = target
 						} else if (current === expected) {
-							that.scrollLeft = newScroll
+							this.scrollLeft = newScroll
 
-							expected = that.scrollLeft
+							expected = this.scrollLeft
 
 							return true
 						}
+
+						return false
 					})
 				}
 
@@ -314,18 +335,18 @@ interface HTMLElement {
 
 					switch (timing) {
 						case "linear":
-						valueMaker = function valueMaker(x) {
-							return x
-						}
+							valueMaker = function valueMaker(x) {
+								return x
+							}
 
-						break
+							break
 						case "ease-out":
 						default:
-						valueMaker = function valueMaker(x) {
-							return -Math.pow(x - 1, 2) + 1
-						}
+							valueMaker = function valueMaker(x) {
+								return -Math.pow(x - 1, 2) + 1
+							}
 
-						break
+							break
 					}
 
 					return function tween(time) {
@@ -336,7 +357,7 @@ interface HTMLElement {
 		},
 
 		scrollIntoViewIfNeeded: {
-			value: function(this: HTMLElement, duration?: number, padding = 0, timing?: string) {
+			value: function(this: HTMLElement, duration ?: number, padding = 0, timing ?: string) {
 				type Scroller = {
 					element: HTMLElement
 					viewport: {

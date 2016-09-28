@@ -51,21 +51,22 @@
                     return this;
                 }
                 var _loop_1 = function (propOrOptions) {
-                    var descending = false, sorter = undefined, accessor = void 0;
+                    var descending = false, sorter = void 0, accessor = void 0;
                     if (typeof propOrOptions === "string") {
                         accessor = function (item) { return item[propOrOptions]; };
                     }
                     else {
-                        var options_1 = propOrOptions;
-                        descending = options_1.descending;
-                        if (typeof options_1.sorter === "function") {
-                            sorter = options_1.sorter;
+                        var options = propOrOptions;
+                        descending = Boolean(options.descending);
+                        if (typeof options.sorter === "function") {
+                            sorter = options.sorter;
                         }
-                        if (typeof options_1.property === "string") {
-                            accessor = function (item) { return item[options_1.property]; };
+                        if (typeof options.property === "string") {
+                            var prop_1 = options.property;
+                            accessor = function (item) { return item[prop_1]; };
                         }
-                        else if (typeof options_1.accessor === "function") {
-                            accessor = options_1.accessor;
+                        else if (typeof options.accessor === "function") {
+                            accessor = options.accessor;
                         }
                         else {
                             return "continue";
@@ -315,13 +316,16 @@
         parentTop: {
             get: function () {
                 if (!this.parentElement) {
-                    return;
+                    return undefined;
                 }
                 return this.totalOffsetTop - this.parentElement.totalOffsetTop;
             }
         },
         absoluteTop: {
             get: function () {
+                if (!this.parentElement) {
+                    return undefined;
+                }
                 var offset = 0, element = this;
                 while (element.parentElement) {
                     offset += element.parentTop;
@@ -333,6 +337,9 @@
         },
         totalOffsetTop: {
             get: function () {
+                if (!this.parentElement) {
+                    return undefined;
+                }
                 var offset = 0, element = this;
                 while (element.offsetParent) {
                     offset += element.offsetTop;
@@ -344,13 +351,16 @@
         parentLeft: {
             get: function () {
                 if (!this.parentElement) {
-                    return;
+                    return undefined;
                 }
                 return this.totalOffsetLeft - this.parentElement.totalOffsetLeft;
             }
         },
         absoluteLeft: {
             get: function () {
+                if (!this.parentElement) {
+                    return undefined;
+                }
                 var offset = 0, element = this;
                 while (element.parentElement) {
                     offset += element.parentLeft;
@@ -362,6 +372,9 @@
         },
         totalOffsetLeft: {
             get: function () {
+                if (!this.parentElement) {
+                    return undefined;
+                }
                 var offset = 0, element = this;
                 while (element.offsetParent) {
                     offset += element.offsetLeft;
@@ -372,9 +385,10 @@
         },
         scrollTo: {
             value: function (topOrOptions, duration, timing) {
+                var _this = this;
                 if (duration === void 0) { duration = 250; }
                 if (timing === void 0) { timing = "ease-out"; }
-                var that = this, startTime = new Date().getTime();
+                var startTime = new Date().getTime();
                 var targetTop, targetLeft;
                 if (typeof topOrOptions === "number") {
                     targetTop = topOrOptions;
@@ -384,33 +398,35 @@
                     targetLeft = topOrOptions.left;
                 }
                 if (typeof targetTop === "number") {
-                    var start = this.scrollTop, down_1 = targetTop > start, tween_1 = makeTween(start, targetTop, duration, timing);
+                    var start = this.scrollTop, target_1 = targetTop, down_1 = target_1 > start, tween_1 = makeTween(start, target_1, duration, timing);
                     var expected_1 = start;
                     addAnimator(function (time) {
-                        var current = that.scrollTop, newScroll = tween_1(time - startTime);
-                        if (time > startTime + duration || (down_1 ? newScroll >= targetTop : newScroll <= targetTop)) {
-                            that.scrollTop = targetTop;
+                        var current = _this.scrollTop, newScroll = tween_1(time - startTime);
+                        if (time > startTime + duration || (down_1 ? newScroll >= target_1 : newScroll <= target_1)) {
+                            _this.scrollTop = target_1;
                         }
                         else if (current === expected_1) {
-                            that.scrollTop = newScroll;
-                            expected_1 = that.scrollTop;
+                            _this.scrollTop = newScroll;
+                            expected_1 = _this.scrollTop;
                             return true;
                         }
+                        return false;
                     });
                 }
                 if (typeof targetLeft === "number") {
-                    var start = this.scrollLeft, right_1 = targetLeft > start, tween_2 = makeTween(start, targetLeft, duration, timing);
+                    var start = this.scrollLeft, target_2 = targetLeft, right_1 = target_2 > start, tween_2 = makeTween(start, target_2, duration, timing);
                     var expected_2 = start;
                     addAnimator(function (time) {
-                        var current = that.scrollLeft, newScroll = tween_2(time - startTime);
-                        if (time > startTime + duration || (right_1 ? newScroll >= targetLeft : newScroll <= targetLeft)) {
-                            that.scrollLeft = targetLeft;
+                        var current = _this.scrollLeft, newScroll = tween_2(time - startTime);
+                        if (time > startTime + duration || (right_1 ? newScroll >= target_2 : newScroll <= target_2)) {
+                            _this.scrollLeft = target_2;
                         }
                         else if (current === expected_2) {
-                            that.scrollLeft = newScroll;
-                            expected_2 = that.scrollLeft;
+                            _this.scrollLeft = newScroll;
+                            expected_2 = _this.scrollLeft;
                             return true;
                         }
+                        return false;
                     });
                 }
                 function makeTween(start, end, duration, timing) {
