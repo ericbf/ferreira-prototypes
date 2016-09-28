@@ -1,5 +1,6 @@
 {
     "compilerOptions": {
+		"declaration": true,
 		"noEmitOnError": true,
 		"noFallthroughCasesInSwitch": true,
 		"noImplicitReturns": true,
@@ -19,7 +20,8 @@
     },
     "exclude": [
         "node_modules",
-		"bower_components"
+		"bower_components",
+		"dist"
     ],
 	"buildOnSave": false,
     "compileOnSave": false,
