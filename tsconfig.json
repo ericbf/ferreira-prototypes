@@ -1,26 +1,28 @@
 {
     "compilerOptions": {
-        "target": "es5",
+		"noEmitOnError": true,
+		"noFallthroughCasesInSwitch": true,
+		"noImplicitReturns": true,
+		"noImplicitThis": true,
+		"outFile": "dist/dist.js",
+		"sourceMap": true,
+		"strictNullChecks": true,
+		"suppressImplicitAnyIndexErrors": true,
         "module": "amd",
         "moduleResolution": "node",
-        "isolatedModules": false,
-        "experimentalDecorators": true,
-        "emitDecoratorMetadata": true,
-        "declaration": false,
         "noImplicitAny": true,
         "noImplicitUseStrict": false,
-        "removeComments": true,
-        "noLib": false,
         "preserveConstEnums": true,
+        "removeComments": true,
         "suppressImplicitAnyIndexErrors": true,
-		"outFile": "dist/dist.js",
-		"sourceMap": true
-	},
+        "target": "es5"
+    },
     "exclude": [
-        "node_modules"
+        "node_modules",
+		"bower_components"
     ],
+	"buildOnSave": false,
     "compileOnSave": false,
-    "buildOnSave": false,
     "atom": {
         "rewriteTsconfig": false
     }

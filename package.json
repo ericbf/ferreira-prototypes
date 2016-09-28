@@ -1,6 +1,6 @@
 {
   "name": "erkalicious-prototypes",
-  "version": "0.0.6",
+  "version": "0.0.7",
   "description": "Some useful javascript prototype extensions. For those who like extending prototypes :).",
   "main": "dist/dist.js",
   "keywords": [
