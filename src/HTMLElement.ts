@@ -28,31 +28,31 @@ interface HTMLElement {
 	/**
 	 * Get the top of this element from the top of the direct parent
 	 */
-	parentTop: number | undefined
+	parentTop: number
 
 	/**
 	 * Get the top of this element from the top of the browser viewport
 	 */
-	absoluteTop: number | undefined
+	absoluteTop: number
 
 	/**
 	 * Get the total offset from the top of the html tag to this element
 	 */
-	totalOffsetTop: number | undefined
+	totalOffsetTop: number
 
 	/**
 	 * Get the left of this element from the left of the direct parent
 	 */
-	parentLeft: number | undefined
+	parentLeft: number
 	/**
 	 * Get the left of this element from the left of the browser viewport
 	 */
-	absoluteLeft: number | undefined
+	absoluteLeft: number
 
 	/**
 	 * Get the total offset from the left of the html tag to this element
 	 */
-	totalOffsetLeft: number | undefined
+	totalOffsetLeft: number
 
 	/**
 	 * Animated scroll from the current scroll to the passed value.
@@ -130,13 +130,13 @@ interface HTMLElement {
 	Object.defineProperties(HTMLElement.prototype, {
 		inDOM: {
 			get: function inDOM(this: HTMLElement): boolean {
-				return document.body.contains(this)
+				return document.documentElement.contains(this)
 			}
 		},
 
-			highestParent: {
+		highestParent: {
 			get: function highestParent(this: HTMLElement): HTMLElement | undefined {
-				let parent = this
+				let parent = this.parentElement
 
 				while (parent.parentElement) {
 					parent = parent.parentElement
@@ -167,98 +167,90 @@ interface HTMLElement {
 		},
 
 		parentTop: {
-			get: function(this: HTMLElement): number | undefined {
+			get: function(this: HTMLElement): number {
+				let offset = this.totalOffsetTop
+
 				if (!this.parentElement) {
-					return undefined
+					return offset
 				}
 
-				return this.totalOffsetTop - this.parentElement.totalOffsetTop
+				return offset - this.parentElement.totalOffsetTop
 			}
 		},
 
 		absoluteTop: {
-			get: function(this: HTMLElement): number | undefined {
-				if (!this.parentElement) {
-					return undefined
-				}
+			get: function(this: HTMLElement): number {
+				let element = this,
+					offset = 0
 
-				let offset = 0,
-					element = this
-
-				while (element.parentElement) {
+				do {
 					offset += element.parentTop
-					offset -= element.parentElement.scrollTop
+
+					if (element.parentElement) {
+						offset -= element.parentElement.scrollTop
+					}
 
 					element = element.parentElement
-				}
+				} while (element)
 
 				return offset
 			}
 		},
 
 		totalOffsetTop: {
-			get: function(this: HTMLElement): number | undefined {
-				if (!this.parentElement) {
-					return undefined
-				}
+			get: function(this: HTMLElement): number {
+				let element = this,
+					offset = 0
 
-				let offset = 0,
-					element = this
-
-				while (element.offsetParent) {
+				do {
 					offset += element.offsetTop
-
 					element = element.offsetParent as HTMLElement
-				}
+				} while (element)
 
 				return offset
 			}
 		},
 
 		parentLeft: {
-			get: function(this: HTMLElement): number | undefined {
+			get: function(this: HTMLElement): number {
+				let offset = this.totalOffsetLeft
+
 				if (!this.parentElement) {
-					return undefined
+					return offset
 				}
 
-				return this.totalOffsetLeft - this.parentElement.totalOffsetLeft
+				return offset - this.parentElement.totalOffsetLeft
 			}
 		},
 
 		absoluteLeft: {
-			get: function(this: HTMLElement): number | undefined {
-				if (!this.parentElement) {
-					return undefined
-				}
+			get: function(this: HTMLElement): number {
+				let element = this,
+					offset = 0
 
-				let offset = 0,
-					element = this
-
-				while (element.parentElement) {
+				do {
 					offset += element.parentLeft
-					offset -= element.parentElement.scrollLeft
+
+					if (element.parentElement) {
+						offset -= element.parentElement.scrollLeft
+					}
 
 					element = element.parentElement
-				}
+				} while (element)
 
 				return offset
 			}
 		},
 
 		totalOffsetLeft: {
-			get: function(this: HTMLElement): number | undefined {
-				if (!this.parentElement) {
-					return undefined
-				}
+			get: function(this: HTMLElement): number {
+				let element = this,
+					offset = 0
 
-				let offset = 0,
-					element = this
-
-				while (element.offsetParent) {
+				do {
 					offset += element.offsetLeft
-
 					element = element.offsetParent as HTMLElement
-				}
+				} while (element)
 
 				return offset
 			}

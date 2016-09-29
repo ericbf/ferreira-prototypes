@@ -24,7 +24,7 @@ module.exports = grunt => {
 
 		grunt.util.spawn({
 			cmd: process.execPath,
-			args: [path.join("node_modules", "tslint", "bin", "tslint"), "--project", "tsconfig.json", "--type-check"]
+			args: [path.join("node_modules", "tslint", "bin", "tslint"), "--project", "tsconfig.json", "--type-check", "--fix"]
 		}, function logResult(error, result, code) {
 			var message = result.stdout + result.stderr
 

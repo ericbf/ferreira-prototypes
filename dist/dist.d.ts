@@ -43,12 +43,12 @@ interface HTMLElement {
     readonly highestParent: HTMLElement | undefined;
     readonly isScrollable: boolean;
     readonly scrollableParent: HTMLElement | undefined;
-    parentTop: number | undefined;
-    absoluteTop: number | undefined;
-    totalOffsetTop: number | undefined;
-    parentLeft: number | undefined;
-    absoluteLeft: number | undefined;
-    totalOffsetLeft: number | undefined;
+    parentTop: number;
+    absoluteTop: number;
+    totalOffsetTop: number;
+    parentLeft: number;
+    absoluteLeft: number;
+    totalOffsetLeft: number;
     scrollTo(topOrOptions: number | TopAndLeft, duration?: number, timing?: string): void;
     scrollIntoViewIfNeeded(duration?: number, padding?: number, timing?: string): void;
 }
