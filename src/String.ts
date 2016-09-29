@@ -90,20 +90,19 @@ interface String {
 
 		toTitleCase: {
 			value: function toTitleCase(this: string) {
-				let str = this.replace(/([^\W_]+[^\s-]*) */g, (txt) => {
-					if (ignores.indexOf(txt) >= 0) {
-						return txt
-					}
-
-					return txt.charAt(0).toUpperCase() + txt.substr(1).toLowerCase()
-				})
+				let str = this.replace(
+					/([^\W_]+[^\s-]*)(?=\s*)/g,
+					(txt) => ignores.indexOf(txt) >= 0
+						? txt
+						: txt.charAt(0).toUpperCase() + txt.substr(1).toLowerCase()
+				)
 
 				for (const lower of lowers) {
 					str = str.replace(new RegExp("[\\s\\-]" + lower + "[\\s\\-]", "g"), (txt) => txt.toLowerCase())
 				}
 
 				for (const special of specials) {
-					str = str.replace(new RegExp("[\\s\\-]" + special.expect + "[\\s\\-]", "g"), special.desire)
+					str = str.replace(new RegExp("\\b" + special.expect + "\\b", "g"), special.desire)
 				}
 
 				return str
@@ -122,7 +121,7 @@ interface String {
 
 		toCamelCase: {
 			value: function toSnakeCase(this: string) {
-				return this.toLowerCase().replace(/(?!^)[_-]([a-z])/g, (_: string, match: string) => match.toUpperCase())
+				return this.toLowerCase().replace(/^[_-]*|([_-][a-z])/g, (_: string, match: string) => match.toUpperCase())
 			}
 		},
 
