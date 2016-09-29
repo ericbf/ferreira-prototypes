@@ -286,12 +286,12 @@
     Object.defineProperties(HTMLElement.prototype, {
         inDOM: {
             get: function inDOM() {
-                return document.body.contains(this);
+                return document.documentElement.contains(this);
             }
         },
         highestParent: {
             get: function highestParent() {
-                var parent = this;
+                var parent = this.parentElement;
                 while (parent.parentElement) {
                     parent = parent.parentElement;
                 }
@@ -315,71 +315,65 @@
         },
         parentTop: {
             get: function () {
+                var offset = this.totalOffsetTop;
                 if (!this.parentElement) {
-                    return undefined;
+                    return offset;
                 }
-                return this.totalOffsetTop - this.parentElement.totalOffsetTop;
+                return offset - this.parentElement.totalOffsetTop;
             }
         },
         absoluteTop: {
             get: function () {
-                if (!this.parentElement) {
-                    return undefined;
-                }
-                var offset = 0, element = this;
-                while (element.parentElement) {
+                var element = this, offset = 0;
+                do {
                     offset += element.parentTop;
-                    offset -= element.parentElement.scrollTop;
+                    if (element.parentElement) {
+                        offset -= element.parentElement.scrollTop;
+                    }
                     element = element.parentElement;
-                }
+                } while (element);
                 return offset;
             }
         },
         totalOffsetTop: {
             get: function () {
-                if (!this.parentElement) {
-                    return undefined;
-                }
-                var offset = 0, element = this;
-                while (element.offsetParent) {
+                var element = this, offset = 0;
+                do {
                     offset += element.offsetTop;
                     element = element.offsetParent;
-                }
+                } while (element);
                 return offset;
             }
         },
         parentLeft: {
             get: function () {
+                var offset = this.totalOffsetLeft;
                 if (!this.parentElement) {
-                    return undefined;
+                    return offset;
                 }
-                return this.totalOffsetLeft - this.parentElement.totalOffsetLeft;
+                return offset - this.parentElement.totalOffsetLeft;
             }
         },
         absoluteLeft: {
             get: function () {
-                if (!this.parentElement) {
-                    return undefined;
-                }
-                var offset = 0, element = this;
-                while (element.parentElement) {
+                var element = this, offset = 0;
+                do {
                     offset += element.parentLeft;
-                    offset -= element.parentElement.scrollLeft;
+                    if (element.parentElement) {
+                        offset -= element.parentElement.scrollLeft;
+                    }
                     element = element.parentElement;
-                }
+                } while (element);
                 return offset;
             }
         },
         totalOffsetLeft: {
             get: function () {
-                if (!this.parentElement) {
-                    return undefined;
-                }
-                var offset = 0, element = this;
-                while (element.offsetParent) {
+                var element = this, offset = 0;
+                do {
                     offset += element.offsetLeft;
                     element = element.offsetParent;
-                }
+                } while (element);
                 return offset;
             }
         },
