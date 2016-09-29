@@ -136,7 +136,7 @@ interface HTMLElement {
 
 		highestParent: {
 			get: function highestParent(this: HTMLElement): HTMLElement | undefined {
-				let parent = this.parentElement
+				let parent = this
 
 				while (parent.parentElement) {
 					parent = parent.parentElement
