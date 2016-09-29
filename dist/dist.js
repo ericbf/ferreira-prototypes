@@ -291,7 +291,7 @@
         },
         highestParent: {
             get: function highestParent() {
-                var parent = this.parentElement;
+                var parent = this;
                 while (parent.parentElement) {
                     parent = parent.parentElement;
                 }
