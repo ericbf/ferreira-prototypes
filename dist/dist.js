@@ -695,19 +695,16 @@
         },
         toTitleCase: {
             value: function toTitleCase() {
-                var str = this.replace(/([^\W_]+[^\s-]*) */g, function (txt) {
-                    if (ignores.indexOf(txt) >= 0) {
-                        return txt;
-                    }
-                    return txt.charAt(0).toUpperCase() + txt.substr(1).toLowerCase();
-                });
+                var str = this.replace(/([^\W_]+[^\s-]*)(?=\s*)/g, function (txt) { return ignores.indexOf(txt) >= 0
+                    ? txt
+                    : txt.charAt(0).toUpperCase() + txt.substr(1).toLowerCase(); });
                 for (var _i = 0, lowers_1 = lowers; _i < lowers_1.length; _i++) {
                     var lower = lowers_1[_i];
                     str = str.replace(new RegExp("[\\s\\-]" + lower + "[\\s\\-]", "g"), function (txt) { return txt.toLowerCase(); });
                 }
                 for (var _a = 0, specials_1 = specials; _a < specials_1.length; _a++) {
                     var special = specials_1[_a];
-                    str = str.replace(new RegExp("[\\s\\-]" + special.expect + "[\\s\\-]", "g"), special.desire);
+                    str = str.replace(new RegExp("\\b" + special.expect + "\\b", "g"), special.desire);
                 }
                 return str;
             }
@@ -722,7 +719,7 @@
         },
         toCamelCase: {
             value: function toSnakeCase() {
-                return this.toLowerCase().replace(/(?!^)[_-]([a-z])/g, function (_, match) { return match.toUpperCase(); });
+                return this.toLowerCase().replace(/^[_-]*|([_-][a-z])/g, function (_, match) { return match.toUpperCase(); });
             }
         },
         toRegExpEscaped: {
