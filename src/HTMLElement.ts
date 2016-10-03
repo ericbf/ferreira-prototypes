@@ -76,55 +76,8 @@ interface HTMLElement {
 (() => {
 	type Animator = (time: number) => boolean
 
-	const animators: Animator[] = [],
-		fps = 60,
-		speed = 1000 / fps
-
-	let isRunning = false
-
-	let animateCycle = throttle(() => {
-		const now = new Date().getTime()
-
-		for (let i = animators.length - 1; i >= 0; i--) {
-			if (!animators[i](now)) {
-				animators.splice(i, 1)
-			}
-		}
-
-		if (animators.length) {
-			isRunning = true
-
-			setTimeout(animateCycle, speed)
-		} else {
-			isRunning = false
-		}
-	})
-
-	function throttle<T extends Function>(func: T): T {
-		let timeout: any
-
-		return function throttled(this: any) {
-			const context = this,
-				args = arguments
-
-			if (!timeout) {
-				timeout = setTimeout(() => {
-					timeout = undefined
-
-					func.apply(context, args)
-				})
-			}
-		} as any
-	}
-
 	function addAnimator(animator: Animator) {
-		if (animators.indexOf(animator) < 0) {
-			animators.push(animator)
-		}
-
-		if (!isRunning) {
-			animateCycle()
-		}
+		window.requestAnimationFrame((now) => animator(now) && addAnimator(animator))
 	}
 
 	Object.defineProperties(HTMLElement.prototype, {
@@ -258,7 +211,7 @@ interface HTMLElement {
 
 		scrollTo: {
 			value: function(this: HTMLElement, topOrOptions: number | TopAndLeft, duration = 250, timing = "ease-out") {
-				const startTime = new Date().getTime()
+				const startTime = performance.now()
 
 				let targetTop: number | undefined,
 					targetLeft: number | undefined
