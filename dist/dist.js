@@ -246,42 +246,8 @@
     });
 })();
 (function () {
-    var animators = [], fps = 60, speed = 1000 / fps;
-    var isRunning = false;
-    var animateCycle = throttle(function () {
-        var now = new Date().getTime();
-        for (var i = animators.length - 1; i >= 0; i--) {
-            if (!animators[i](now)) {
-                animators.splice(i, 1);
-            }
-        }
-        if (animators.length) {
-            isRunning = true;
-            setTimeout(animateCycle, speed);
-        }
-        else {
-            isRunning = false;
-        }
-    });
-    function throttle(func) {
-        var timeout;
-        return function throttled() {
-            var context = this, args = arguments;
-            if (!timeout) {
-                timeout = setTimeout(function () {
-                    timeout = undefined;
-                    func.apply(context, args);
-                });
-            }
-        };
-    }
     function addAnimator(animator) {
-        if (animators.indexOf(animator) < 0) {
-            animators.push(animator);
-        }
-        if (!isRunning) {
-            animateCycle();
-        }
+        window.requestAnimationFrame(function (now) { return animator(now) && addAnimator(animator); });
     }
     Object.defineProperties(HTMLElement.prototype, {
         inDOM: {
@@ -382,7 +348,7 @@
                 var _this = this;
                 if (duration === void 0) { duration = 250; }
                 if (timing === void 0) { timing = "ease-out"; }
-                var startTime = new Date().getTime();
+                var startTime = performance.now();
                 var targetTop, targetLeft;
                 if (typeof topOrOptions === "number") {
                     targetTop = topOrOptions;
