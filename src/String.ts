@@ -74,6 +74,9 @@ interface String {
 		}, {
 			expect: "Zte",
 			desire: "ZTE"
+		}, {
+			expect: "Lg",
+			desire: "LG"
 		}],
 
 		ignores = [

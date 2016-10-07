@@ -123,7 +123,7 @@ interface Function {
 							try {
 								if (!("$$memoizeUniqueId" in argument)) {
 									Object.defineProperty(argument, "$$memoizeUniqueId", {
-										value: String($$memoizeUniqueId++)
+										value: $$memoizeUniqueId++ + "_$$memoizeUniqueId"
 									})
 								}
 
