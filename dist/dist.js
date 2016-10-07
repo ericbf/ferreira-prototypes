@@ -167,7 +167,7 @@
                             try {
                                 if (!("$$memoizeUniqueId" in argument)) {
                                     Object.defineProperty(argument, "$$memoizeUniqueId", {
-                                        value: String($$memoizeUniqueId++)
+                                        value: $$memoizeUniqueId++ + "_$$memoizeUniqueId"
                                     });
                                 }
                                 argument = argument.$$memoizeUniqueId;
@@ -648,6 +648,9 @@
         }, {
             expect: "Zte",
             desire: "ZTE"
+        }, {
+            expect: "Lg",
+            desire: "LG"
         }], ignores = [
         "US",
         "RIM"
