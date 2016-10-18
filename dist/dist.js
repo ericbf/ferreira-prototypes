@@ -437,16 +437,16 @@
                 }
                 scrollers.forEach(function doScroll(options) {
                     var scrollTop = options.scrollTop, scrollLeft = options.scrollLeft;
-                    if (options.offsetTop + options.height > options.viewport.height + options.scrollTop + padding) {
+                    if (options.offsetTop + options.height > options.viewport.height + options.scrollTop - padding) {
                         scrollTop = options.offsetTop + options.height - options.viewport.height + padding;
                     }
-                    else if (options.offsetTop < options.scrollTop - padding) {
+                    else if (options.offsetTop < options.scrollTop + padding) {
                         scrollTop = options.offsetTop - padding;
                     }
-                    if (options.offsetLeft + options.width > options.viewport.width + options.scrollLeft + padding) {
+                    if (options.offsetLeft + options.width > options.viewport.width + options.scrollLeft - padding) {
                         scrollLeft = options.offsetLeft + options.width - options.viewport.width + padding;
                     }
-                    else if (options.offsetLeft < options.scrollLeft - padding) {
+                    else if (options.offsetLeft < options.scrollLeft + padding) {
                         scrollLeft = options.offsetLeft - padding;
                     }
                     options.element.scrollTo({

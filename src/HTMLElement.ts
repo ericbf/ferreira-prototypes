@@ -351,18 +351,18 @@ interface HTMLElement {
 					let scrollTop = options.scrollTop,
 						scrollLeft = options.scrollLeft
 
-					if (options.offsetTop + options.height > options.viewport.height + options.scrollTop + padding) {
+					if (options.offsetTop + options.height > options.viewport.height + options.scrollTop - padding) {
 						// Element needs scroll up into the view
 						scrollTop = options.offsetTop + options.height - options.viewport.height + padding
-					} else if (options.offsetTop < options.scrollTop - padding) {
+					} else if (options.offsetTop < options.scrollTop + padding) {
 						// Element needs scroll down into the view
 						scrollTop = options.offsetTop - padding
 					}
 
-					if (options.offsetLeft + options.width > options.viewport.width + options.scrollLeft + padding) {
+					if (options.offsetLeft + options.width > options.viewport.width + options.scrollLeft - padding) {
 						// Element needs scroll left into the view
 						scrollLeft = options.offsetLeft + options.width - options.viewport.width + padding
-					} else if (options.offsetLeft < options.scrollLeft - padding) {
+					} else if (options.offsetLeft < options.scrollLeft + padding) {
 						// Element needs scroll right into the view
 						scrollLeft = options.offsetLeft - padding
 					}
