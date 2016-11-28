@@ -1,4 +1,7 @@
 (function () {
+    if (!Array) {
+        return;
+    }
     Object.defineProperties(Array.prototype, {
         remove: {
             value: function remove(comp, thisArg) {
@@ -122,6 +125,9 @@
     });
 })();
 (function () {
+    if (!Function) {
+        return;
+    }
     var $$memoizeUniqueId = 0;
     Object.defineProperties(Function.prototype, {
         curry: {
@@ -246,6 +252,9 @@
     });
 })();
 (function () {
+    if (!HTMLElement) {
+        return;
+    }
     function addAnimator(animator) {
         window.requestAnimationFrame(function (now) { return animator(now) && addAnimator(animator); });
     }
@@ -459,6 +468,9 @@
     });
 })();
 (function () {
+    if (!Object) {
+        return;
+    }
     Object.defineProperties(Object.prototype, {
         merge: {
             value: function override() {
@@ -618,6 +630,9 @@
     });
 })();
 (function () {
+    if (!String) {
+        return;
+    }
     var lowers = [
         "A", "An", "The", "And", "But", "Or", "For", "Nor", "As", "At",
         "By", "For", "From", "In", "Into", "Near", "Of", "On", "Onto", "To", "With"

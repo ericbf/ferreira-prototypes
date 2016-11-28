@@ -75,6 +75,10 @@ interface Object {
 }
 
 (() => {
+	if (!Object) {
+		return
+	}
+
 	interface OverridenObject extends Object {
 		_super: { [name: string]: Function }
 	}

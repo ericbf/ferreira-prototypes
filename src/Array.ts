@@ -106,6 +106,10 @@ interface Array<T> {
 }
 
 (() => {
+	if (!Array) {
+		return
+	}
+
 	Object.defineProperties(Array.prototype, {
 		remove: {
 			value: function remove<T>(this: T[], comp: Comparator<T>, thisArg?: any) {

@@ -39,6 +39,10 @@ interface String {
 }
 
 (() => {
+	if (!String) {
+		return
+	}
+
 	// Common words that are usually lowercase unless they are the first
 	//   word in the sentence.
 	const lowers = [

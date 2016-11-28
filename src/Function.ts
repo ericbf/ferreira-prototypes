@@ -71,6 +71,10 @@ interface Function {
 }
 
 (() => {
+	if (!Function) {
+		return
+	}
+
 	let $$memoizeUniqueId = 0
 
 	Object.defineProperties(Function.prototype, {

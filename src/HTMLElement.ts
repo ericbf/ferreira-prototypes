@@ -74,6 +74,10 @@ interface HTMLElement {
 }
 
 (() => {
+	if (!HTMLElement) {
+		return
+	}
+
 	type Animator = (time: number) => boolean
 
 	function addAnimator(animator: Animator) {
