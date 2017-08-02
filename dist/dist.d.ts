@@ -24,8 +24,8 @@ declare type MemoizeOptions = {
     argumentsCount?: number;
     asynchronous?: boolean;
 };
-declare type Cache = {
-    [key: string]: Cache | any;
+declare type MemoizeCache = {
+    [key: string]: MemoizeCache | any;
     value?: any;
 };
 interface Function {
@@ -49,7 +49,7 @@ interface HTMLElement {
     parentLeft: number;
     absoluteLeft: number;
     totalOffsetLeft: number;
-    scrollTo(topOrOptions: number | TopAndLeft, duration?: number, timing?: string): void;
+    animateScrollTo(topOrOptions: number | TopAndLeft, duration?: number, timing?: string): void;
     scrollIntoViewIfNeeded(duration?: number, padding?: number, timing?: string): void;
 }
 declare type Watcher = (newValue: any, oldValue: any, property: string) => void;

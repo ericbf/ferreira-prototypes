@@ -46,7 +46,7 @@
             value: function sortBy() {
                 var propsOrOptionses = [];
                 for (var _i = 0; _i < arguments.length; _i++) {
-                    propsOrOptionses[_i - 0] = arguments[_i];
+                    propsOrOptionses[_i] = arguments[_i];
                 }
                 var sorters = [];
                 var index = 0;
@@ -134,7 +134,7 @@
             value: function curry() {
                 var args = [];
                 for (var _i = 0; _i < arguments.length; _i++) {
-                    args[_i - 0] = arguments[_i];
+                    args[_i] = arguments[_i];
                 }
                 var that = this;
                 return function curried() {
@@ -285,7 +285,7 @@
                 while (parent && !parent.isScrollable) {
                     parent = parent.parentElement;
                 }
-                return parent;
+                return parent || undefined;
             }
         },
         parentTop: {
@@ -299,13 +299,14 @@
         },
         absoluteTop: {
             get: function () {
-                var element = this, offset = 0;
+                var element = this;
+                var offset = 0;
                 do {
                     offset += element.parentTop;
                     if (element.parentElement) {
                         offset -= element.parentElement.scrollTop;
                     }
-                    element = element.parentElement;
+                    element = element.parentElement || undefined;
                 } while (element);
                 return offset;
             }
@@ -331,13 +332,14 @@
         },
         absoluteLeft: {
             get: function () {
-                var element = this, offset = 0;
+                var element = this;
+                var offset = 0;
                 do {
                     offset += element.parentLeft;
                     if (element.parentElement) {
                         offset -= element.parentElement.scrollLeft;
                     }
-                    element = element.parentElement;
+                    element = element.parentElement || undefined;
                 } while (element);
                 return offset;
             }
@@ -352,7 +354,7 @@
                 return offset;
             }
         },
-        scrollTo: {
+        animateScrollTo: {
             value: function (topOrOptions, duration, timing) {
                 var _this = this;
                 if (duration === void 0) { duration = 250; }
@@ -458,7 +460,7 @@
                     else if (options.offsetLeft < options.scrollLeft + padding) {
                         scrollLeft = options.offsetLeft - padding;
                     }
-                    options.element.scrollTo({
+                    options.element.animateScrollTo({
                         top: scrollTop,
                         left: scrollLeft
                     }, duration, timing);
@@ -477,7 +479,7 @@
                 var _this = this;
                 var others = [];
                 for (var _i = 0; _i < arguments.length; _i++) {
-                    others[_i - 0] = arguments[_i];
+                    others[_i] = arguments[_i];
                 }
                 others.forEach(function (one) {
                     if (one) {
@@ -603,7 +605,7 @@
             value: function getNestedProperty() {
                 var properties = [];
                 for (var _i = 0; _i < arguments.length; _i++) {
-                    properties[_i - 0] = arguments[_i];
+                    properties[_i] = arguments[_i];
                 }
                 var value = this;
                 for (var _a = 0, properties_1 = properties; _a < properties_1.length; _a++) {

@@ -22,8 +22,6 @@
 		"no-console": [true, "log", "error"],
 		"no-duplicate-variable": true,
 		"no-null-keyword": true,
-		"no-unreachable": true,
-		"no-unused-new": true,
 		"triple-equals": [true, "allow-undefined-check"],
 		"eofline": true,
 		"indent": "tabs",

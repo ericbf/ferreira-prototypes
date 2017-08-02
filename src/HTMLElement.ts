@@ -119,7 +119,7 @@ interface HTMLElement {
 					parent = parent.parentElement
 				}
 
-				return parent
+				return parent || undefined
 			}
 		},
 
@@ -137,8 +137,8 @@ interface HTMLElement {
 
 		absoluteTop: {
 			get: function(this: HTMLElement): number {
-				let element = this,
-					offset = 0
+				let element: HTMLElement | undefined = this
+				let offset = 0
 
 				do {
 					offset += element.parentTop
@@ -147,7 +147,7 @@ interface HTMLElement {
 						offset -= element.parentElement.scrollTop
 					}
 
-					element = element.parentElement
+					element = element.parentElement || undefined
 				} while (element)
 
 				return offset
@@ -182,8 +182,8 @@ interface HTMLElement {
 
 		absoluteLeft: {
 			get: function(this: HTMLElement): number {
-				let element = this,
-					offset = 0
+				let element: HTMLElement | undefined = this
+				let offset = 0
 
 				do {
 					offset += element.parentLeft
@@ -192,7 +192,7 @@ interface HTMLElement {
 						offset -= element.parentElement.scrollLeft
 					}
 
-					element = element.parentElement
+					element = element.parentElement || undefined
 				} while (element)
 
 				return offset

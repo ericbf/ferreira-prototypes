@@ -16,8 +16,8 @@ type MemoizeOptions = {
 	asynchronous?: boolean
 }
 
-type Cache = {
-	[key: string]: Cache | any
+type MemoizeCache = {
+	[key: string]: MemoizeCache | any
 
 	value?: any
 }
@@ -104,7 +104,7 @@ interface Function {
 				}
 
 				const that = this,
-					cache: Cache = {}
+					cache: MemoizeCache = {}
 
 				return function memoized(this: any) {
 					const keys = Array.prototype.filter.call(arguments, function removeFromKeys(obj: any, index: number) {

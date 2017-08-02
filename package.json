@@ -1,25 +1,29 @@
 {
-  "name": "erkalicious-prototypes",
-  "version": "0.0.6",
-  "description": "Some useful javascript prototype extensions. For those who like extending prototypes :).",
-  "main": "dist/dist.js",
-  "keywords": [
-    "extension",
-    "javascript",
-    "prototype",
-    "array",
-    "function",
-    "object",
-    "string"
-  ],
-  "author": "Eric Ferreira <eric@ferreira.world>",
-  "repository": "https://github.com/erkalicious/erkalicious-prototypes",
-  "license": "MIT",
-  "devDependencies": {
-    "grunt": "1.0.1",
-    "grunt-contrib-uglify": "2.0.0",
-    "load-grunt-tasks": "3.5.2",
-    "tslint": "3.15.0-dev.0",
-    "typescript": "2.1.0-dev.20160922"
-  }
+	"name": "erkalicious-prototypes",
+	"version": "0.1.0",
+	"description": "Some useful javascript prototype extensions. For those who like extending prototypes :).",
+	"main": "dist/dist.js",
+	"keywords": [
+		"extension",
+		"javascript",
+		"prototype",
+		"array",
+		"function",
+		"object",
+		"string"
+	],
+	"author": "Eric Ferreira <eric@ferreira.world>",
+	"repository": "https://github.com/erkalicious/erkalicious-prototypes",
+	"license": "MIT",
+	"devDependencies": {
+		"tslint": "^5.5.0",
+		"typescript": "^2.4.2",
+		"uglify-js": "^3.0.27"
+	},
+	"scripts": {
+		"lint": "tslint --project tsconfig.json --type-check --fix",
+		"typescript": "tsc",
+		"minify": "uglifyjs dist/dist.js --output dist/dist.min.js --mangle --compress --source-map filename=dist/dist.js.map",
+		"build": "npm run lint; npm run typescript; npm run minify"
+	}
 }
