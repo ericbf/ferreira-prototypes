@@ -62,7 +62,7 @@ interface HTMLElement {
 	 * @param {number} duration - the duration to use. Default is 250.
 	 * @param {string} timing - the timing function. Default is "ease-out".
 	 */
-	scrollTo(topOrOptions: number | TopAndLeft, duration ?: number, timing ?: string): void
+	animateScrollTo(topOrOptions: number | TopAndLeft, duration ?: number, timing ?: string): void
 
 	/**
 	 * Try to animatedly scroll this into view, if needed.
@@ -213,7 +213,7 @@ interface HTMLElement {
 			}
 		},
 
-		scrollTo: {
+		animateScrollTo: {
 			value: function(this: HTMLElement, topOrOptions: number | TopAndLeft, duration = 250, timing = "ease-out") {
 				const startTime = performance.now()
 
@@ -371,7 +371,7 @@ interface HTMLElement {
 						scrollLeft = options.offsetLeft - padding
 					}
 
-					options.element.scrollTo({
+					options.element.animateScrollTo({
 						top: scrollTop,
 						left: scrollLeft
 					}, duration, timing)
